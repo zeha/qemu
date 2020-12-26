@@ -458,6 +458,12 @@ int hvf_arch_init_vcpu(CPUState *cpu)
     }
     write_cpustate_to_list(arm_cpu, false);
 
+    /* TBD */
+    ret = hv_vcpu_set_sys_reg(cpu->hvf->fd, HV_SYS_REG_SCTLR_EL1,
+                              arm_cpu->reset_sctlr);
+    assert_hvf_ok(ret);
+
+
     /* Set CP_NO_RAW system registers on init */
     ret = hv_vcpu_set_sys_reg(cpu->hvf->fd, HV_SYS_REG_MIDR_EL1,
                               arm_cpu->midr);
@@ -478,7 +484,7 @@ int hvf_arch_init_vcpu(CPUState *cpu)
                               &arm_cpu->isar.id_aa64mmfr0);
     assert_hvf_ok(ret);
 
-    return 0;
+    return ret;
 }
 
 void hvf_kick_vcpu_thread(CPUState *cpu)
