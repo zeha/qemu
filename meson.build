@@ -1893,6 +1893,7 @@ foreach target : target_dirs
     if exe_sign
       exe_name += '-unsigned'
     endif
+    message('Added target ', exe_name, 'based off', exe['name'])
 
     emulator = executable(exe_name, exe['sources'],
                install: not exe_sign,
@@ -1917,6 +1918,7 @@ foreach target : target_dirs
                      meson.current_source_dir() / 'accel/hvf/entitlements.plist'
                    ])
       }
+      message('Signing helper is ', meson.current_source_dir() / 'scripts/entitlement.sh')
     else
       emulators += {exe['name']: emulator}
     endif
